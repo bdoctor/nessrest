@@ -105,6 +105,8 @@ class Scanner(object):
             self.api_akey = api_akey
             self.api_skey = api_skey
             self.use_api = True
+            # Get our token BBD
+            self._login(login,password)
         else:
             # Initial login to get our token for all subsequent transactions
             self._login(login, password)
@@ -638,6 +640,8 @@ class Scanner(object):
         self.scan_name = name
         self.action(action="scans", method="get")
 
+        self.scans = self.res
+
         if "scans" in self.res and self.res["scans"]:
             for scan in self.res["scans"]:
                 if scan["name"] == name:
@@ -687,8 +691,8 @@ class Scanner(object):
 
         self.scan_uuid = self.res["scan_uuid"]
 
-        print("Scan name : %s" % self.scan_name)
-        print("Scan UUID : %s" % self.scan_uuid)
+        #print("Scan name : %s" % self.scan_name)
+        #print("Scan UUID : %s" % self.scan_uuid)
 
 ################################################################################
     def _scan_status(self):
@@ -799,7 +803,6 @@ class Scanner(object):
         self.scan_details(name)
 
         for host in self.res["hosts"]:
-            #print("%s" % host["host_id"])
             self.host_ids[host["host_id"]]=1
 
 ################################################################################
